@@ -109,7 +109,7 @@ namespace task {
     }
 
     void searchByName(const std::vector<Task>& tasks, const std::string& name) {
-        utils::printTableHeader({ "ID", "Name", "Description", "Status", "Employee ID", "Project ID"});
+        utils::printTableHeader({ "\nID", "Name", "Description", "Status", "Employee ID", "Project ID"});
         for (const auto& task : tasks) {
             if (task.name.find(name) != std::string::npos) {
                 std::cout << std::left << std::setw(20) << task.id << "|"
@@ -123,7 +123,7 @@ namespace task {
     }
 
     void searchTaskByStatus(const std::vector<Task>& tasks, TaskStatus selectedStatus) {
-        utils::printTableHeader({ "ID", "Name", "Description", "Status", "Employee ID", "Project ID" });
+        utils::printTableHeader({ "\nID", "Name", "Description", "Status", "Employee ID", "Project ID" });
         for (const auto& task : tasks) {
             if (task.status == selectedStatus) {
                 std::cout << std::left << std::setw(20) << task.id << "|"
@@ -133,81 +133,6 @@ namespace task {
                     << std::setw(20) << task.employeeId << "|"
                     << std::setw(20) << task.projectId << "|\n";
             }
-        }
-    }
-
-    void assignTaskToEmployee(int employeeId, int taskId) {
-        std::vector<Employee> employees;
-        std::vector<Task> tasks;
-
-        employee::readAll(employees);
-        task::readAll(tasks);
-
-        bool employeeExists = false;
-        for (const auto& e : employees) {
-            if (e.id == employeeId) {
-                employeeExists = true;
-                break;
-            }
-        }
-
-        if (!employeeExists) {
-            utils::printError("Employee not found.");
-            return;
-        }
-
-        bool taskFound = false;
-        for (auto& t : tasks) {
-            if (t.id == taskId) {
-                t.employeeId = employeeId;
-                taskFound = true;
-                break;
-            }
-        }
-
-        if (!taskFound) {
-            utils::printError("Task not found.");
-            return;
-        }
-
-        std::ofstream file(task::FILE_NAME);
-        for (const auto& t : tasks) {
-            file << t.id << "|"
-                << t.name << "|"
-                << t.description << "|"
-                << task::statusToString(t.status) << "|"
-                << t.employeeId << "|"
-                << t.projectId << "\n";
-        }
-        file.close();
-
-        utils::printSuccess("Task assigned to employee.");
-    }
-
-    void assignProjectToTask(int taskId, int projectId) {
-        std::vector<Task> tasks;
-        task::readAll(tasks);
-
-        bool found = false;
-        for (auto& t : tasks) {
-            if (t.id == taskId) {
-                t.projectId = projectId;
-                found = true;
-                break;
-            }
-        }
-
-        if (found) {
-            std::ofstream file(task::FILE_NAME);
-            for (const auto& t : tasks)
-                file << t.id << "|" << t.name << "|" << t.description << "|"
-                << statusToString(t.status) << "|" << t.employeeId << "|" << t.projectId << "\n";
-
-            file.close();
-            utils::printSuccess("Client attached to project.");
-        }
-        else {
-            utils::printError("Client not found.");
         }
     }
 }

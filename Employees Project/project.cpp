@@ -73,7 +73,7 @@ namespace project {
 	}
 
 	void searchByName(const std::vector<Project>& projects, const std::string& name) {
-		utils::printTableHeader({ "ID", "Name", "Description", "Client ID", "Task ID", "Time Start", "Time End"});
+		utils::printTableHeader({ "\nID", "Name", "Description", "Client ID", "Task ID", "Time Start", "Time End"});
 		for (const auto& project : projects) {
 			if (project.name.find(name) != std::string::npos) {
 				std::cout << std::left << std::setw(20) << project.id << "|"
@@ -88,7 +88,7 @@ namespace project {
 	}
 
 	void searchProjectByClientId(const std::vector<Project>& projects, int clientId) {
-		utils::printTableHeader({ "ID", "Name", "Description", "Client ID", "Task ID", "Time Start", "Time End" });
+		utils::printTableHeader({ "\nID", "Name", "Description", "Client ID", "Task ID", "Time Start", "Time End" });
 		for (const auto& project : projects) {
 			if (project.clientId == clientId) {
 				std::cout << std::left << std::setw(20) << project.id << "|"
