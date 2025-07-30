@@ -75,10 +75,13 @@ namespace project {
 	void searchByName(const std::vector<Project>& projects, const std::string& name) {
 		utils::printTableHeader({ "\nID", "Name", "Description", "Client ID", "Task ID", "Time Start", "Time End"});
 		for (const auto& project : projects) {
-			if (project.name.find(name) != std::string::npos) {
+			if (utils::toLower(project.name).find(utils::toLower(name)) != std::string::npos) {
+				std::string name = project.name.length() > 20 ? project.name.substr(0, 17) + "..." : project.name;
+				std::string description = project.description.length() > 20 ? project.description.substr(0, 17) + "..." : project.description;
+
 				std::cout << std::left << std::setw(20) << project.id << "|"
-					<< std::setw(20) << project.name << "|"
-					<< std::setw(20) << project.description << "|"
+					<< std::setw(20) << name << "|"
+					<< std::setw(20) << description << "|"
 					<< std::setw(20) << project.clientId << "|"
 					<< std::setw(20) << project.taskId << "|"
 					<< std::setw(20) << project.timeStart << "|"
@@ -91,9 +94,12 @@ namespace project {
 		utils::printTableHeader({ "\nID", "Name", "Description", "Client ID", "Task ID", "Time Start", "Time End" });
 		for (const auto& project : projects) {
 			if (project.clientId == clientId) {
+				std::string name = project.name.length() > 20 ? project.name.substr(0, 17) + "..." : project.name;
+				std::string description = project.description.length() > 20 ? project.description.substr(0, 17) + "..." : project.description;
+
 				std::cout << std::left << std::setw(20) << project.id << "|"
-					<< std::setw(20) << project.name << "|"
-					<< std::setw(20) << project.description << "|"
+					<< std::setw(20) << name << "|"
+					<< std::setw(20) << description << "|"
 					<< std::setw(20) << project.clientId << "|"
 					<< std::setw(20) << project.taskId << "|"
 					<< std::setw(20) << project.timeStart << "|"

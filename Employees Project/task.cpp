@@ -111,10 +111,13 @@ namespace task {
     void searchByName(const std::vector<Task>& tasks, const std::string& name) {
         utils::printTableHeader({ "\nID", "Name", "Description", "Status", "Employee ID", "Project ID"});
         for (const auto& task : tasks) {
-            if (task.name.find(name) != std::string::npos) {
+            if (utils::toLower(task.name).find(utils::toLower(name)) != std::string::npos) {
+                std::string name = task.name.length() > 20 ? task.name.substr(0, 17) + "..." : task.name;
+                std::string description = task.description.length() > 20 ? task.description.substr(0, 17) + "..." : task.description;
+
                 std::cout << std::left << std::setw(20) << task.id << "|"
-                    << std::setw(20) << task.name << "|"
-                    << std::setw(20) << task.description << "|"
+                    << std::setw(20) << name << "|"
+                    << std::setw(20) << description << "|"
                     << std::setw(20) << statusToString(task.status) << "|"
                     << std::setw(20) << task.employeeId << "|"
                     << std::setw(20) << task.projectId << "|\n";
@@ -126,9 +129,12 @@ namespace task {
         utils::printTableHeader({ "\nID", "Name", "Description", "Status", "Employee ID", "Project ID" });
         for (const auto& task : tasks) {
             if (task.status == selectedStatus) {
+                std::string name = task.name.length() > 20 ? task.name.substr(0, 17) + "..." : task.name;
+                std::string description = task.description.length() > 20 ? task.description.substr(0, 17) + "..." : task.description;
+
                 std::cout << std::left << std::setw(20) << task.id << "|"
-                    << std::setw(20) << task.name << "|"
-                    << std::setw(20) << task.description << "|"
+                    << std::setw(20) << name << "|"
+                    << std::setw(20) << description << "|"
                     << std::setw(20) << statusToString(task.status) << "|"
                     << std::setw(20) << task.employeeId << "|"
                     << std::setw(20) << task.projectId << "|\n";

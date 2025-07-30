@@ -28,7 +28,7 @@ void printMenu() {
 		<< "\nEnter Choice: ";
 }
 
-void demoMode() {
+void demoMode() { // demo mode that will be put in text files
 	Employee e1 = { 1, "Ivan", "Petrenko", 30, "Developer" };
 	Employee e2 = { 2, "Olena", "Shevchenko", 28, "Designer" };
 	employee::create(e1);
@@ -88,9 +88,12 @@ int main() {
 			client::readAll(clients);
 			utils::printTableHeader({ "\nID", "Name", "Phone Number", "Project ID" });
 			for (const auto& c : clients) {
+				std::string name = c.name.length() > 20 ? c.name.substr(0, 17) + "..." : c.name;
+				std::string phone = c.phone.length() > 20 ? c.phone.substr(0, 17) + "..." : c.phone;
+
 				std::cout << std::left << std::setw(20) << c.id << "|"
-					<< std::setw(20) << c.name << "|"
-					<< std::setw(20) << c.phone << "|"
+					<< std::setw(20) << name << "|"
+					<< std::setw(20) << phone << "|"
 					<< std::setw(20) << c.projectId << "|\n";
 			}
 			break;
@@ -330,9 +333,12 @@ int main() {
 			task::readAll(tasks);
 			utils::printTableHeader({ "\nID", "Name", "Description", "Status", "Employee ID", "Project ID" });
 			for (const auto& task : tasks) {
+				std::string name = task.name.length() > 20 ? task.name.substr(0, 17) + "..." : task.name;
+				std::string description = task.description.length() > 20 ? task.description.substr(0, 17) + "..." : task.description;
+
 				std::cout << std::left << std::setw(20) << task.id << "|"
-					<< std::setw(20) << task.name << "|"
-					<< std::setw(20) << task.description << "|"
+					<< std::setw(20) << name << "|"
+					<< std::setw(20) << description << "|"
 					<< std::setw(20) << task::statusToString(task.status) << "|"
 					<< std::setw(20) << task.employeeId << "|"
 					<< std::setw(20) << task.projectId << "|\n";
@@ -426,9 +432,9 @@ int main() {
 			std::getline(std::cin, project.name);
 			std::cout << "Enter description: ";
 			std::getline(std::cin, project.description);
-			std::cout << "Enter client ID: ";
+			std::cout << "Enter client ID (-1 = no client): ";
 			std::cin >> project.clientId;
-			std::cout << "Enter task ID: ";
+			std::cout << "Enter task ID (-1 = no task): ";
 			std::cin >> project.taskId;
 			std::cout << "Enter the start time of the project: ";
 			std::cin >> project.timeStart;
@@ -448,9 +454,12 @@ int main() {
 			project::readAll(projects);
 			utils::printTableHeader({ "\nID", "Name", "Description", "Client ID", "Task ID", "Time Start", "Time End" });
 			for (const auto& project : projects) {
+				std::string name = project.name.length() > 20 ? project.name.substr(0, 17) + "..." : project.name;
+				std::string description = project.description.length() > 20 ? project.description.substr(0, 17) + "..." : project.description;
+
 				std::cout << std::left << std::setw(20) << project.id << "|"
-					<< std::setw(20) << project.name << "|"
-					<< std::setw(20) << project.description << "|"
+					<< std::setw(20) << name << "|"
+					<< std::setw(20) << description << "|"
 					<< std::setw(20) << project.clientId << "|"
 					<< std::setw(20) << project.taskId << "|"
 					<< std::setw(20) << project.timeStart << "|"
@@ -550,6 +559,9 @@ int main() {
 			demoMode();
 			break;
 		}
+		default:
+			utils::printError("Invalid option. Please try again.\n");
+			break;
 		}
 	}
 }

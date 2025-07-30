@@ -74,8 +74,8 @@ namespace employee {
 	void searchByName(const std::vector<Employee>& employees, const std::string& name) {
 		utils::printTableHeader({ "\nID", "First Name", "Last Name", "Age", "Position", "Task ID"});
 		for (const auto& employee : employees) {
-			if (employee.firstName.find(name) != std::string::npos ||
-				employee.lastName.find(name) != std::string::npos) {
+			if (utils::toLower(employee.firstName).find(utils::toLower(name)) != std::string::npos ||
+				utils::toLower(employee.lastName).find(utils::toLower(name)) != std::string::npos) {
 				std::cout << std::left << std::setw(20) << employee.id << "|"
 					<< std::setw(20) << employee.firstName << "|"
 					<< std::setw(20) << employee.lastName << "|" 
@@ -86,7 +86,7 @@ namespace employee {
 		}
 	}
 
-	void sortByAge(std::vector<Employee>& employees, bool ascending) {
+	void sortByAge(std::vector<Employee>& employees, bool ascending) { // sorts age either by ascending or descending (user choice)
 		std::sort(employees.begin(), employees.end(), [ascending](const Employee& a, const Employee& b) {
 			return ascending ? a.age < b.age : a.age > b.age;
 			});

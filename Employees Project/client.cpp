@@ -70,10 +70,13 @@ namespace client {
 	void searchByName(const std::vector<Client>& clients, const std::string& name) {
 		utils::printTableHeader({ "\nID", "Name", "Phone", "Project ID" });
 		for (const auto& client : clients) {
-			if (client.name.find(name) != std::string::npos) {
+			if (utils::toLower(client.name).find(utils::toLower(name)) != std::string::npos) { // lowers name to find easier
+				std::string name = client.name.length() > 20 ? client.name.substr(0, 17) + "..." : client.name;
+				std::string phone = client.phone.length() > 20 ? client.phone.substr(0, 17) + "..." : client.phone;
+
 				std::cout << std::left << std::setw(20) << client.id << "|"
-					<< std::setw(20) << client.name << "|"
-					<< std::setw(20) << client.phone << "|"
+					<< std::setw(20) << name << "|"
+					<< std::setw(20) << phone << "|"
 					<< std::setw(20) << client.projectId << "|\n";
 			}
 		}

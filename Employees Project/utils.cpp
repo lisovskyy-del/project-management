@@ -8,34 +8,32 @@
 namespace utils {
     bool validateString(const std::string& text) {
         return !text.empty() && std::all_of(text.begin(), text.end(), [](char c) -> bool {
-            return std::isalpha(c) || c == ' ' || c == '-' || c == '\'';
+            return std::isalpha(c) || c == ' ' || c == '-' || c == '\''; // return false if name is not right (has to be Oleksandr, not O-lek-san-dr)
             });
     }
 
     bool validateAge(int age) {
-        return age >= 18 && age <= 100;
+        return age >= 18 && age <= 100; // if employee age < 18 or > 100, return false
     }
 
     bool validateTimeStart(int timeStart) {
-        return timeStart >= 1800 && timeStart <= std::time(nullptr) / 31536000 + 1970;
+        return timeStart >= 1800 && timeStart <= std::time(nullptr) / 31536000 + 1970; // if timestart > 2025, return false
     }
 
     bool validateTimeEnd(int timeStart, int timeEnd) {
-        return timeEnd >= timeStart && timeEnd <= 2300;
+        return timeEnd >= timeStart && timeEnd <= 2300; // if timestart > timeend and timeend > year 2300, return false
     }
 
     bool validatePhone(const std::string& phone) {
         std::regex pattern("\\+?\\d{10,12}");
-        return std::regex_match(phone, pattern);
+        return std::regex_match(phone, pattern); // example: +12345678901
     }
 
-    std::string currentDate() {
-        std::time_t now = std::time(nullptr);
-        std::tm timeStruct{};
-        localtime_s(&timeStruct, &now);
-        char buf[11];
-        std::strftime(buf, sizeof(buf), "%Y-%m-%d", &timeStruct);
-        return buf;
+    std::string utils::toLower(const std::string& str) {
+        std::string lowerStr = str;
+        std::transform(lowerStr.begin(), lowerStr.end(), lowerStr.begin(),
+            [](unsigned char c) { return std::tolower(c); });
+        return lowerStr;
     }
 
     void printTableHeader(const std::vector<std::string>& headers) {
@@ -53,7 +51,7 @@ namespace utils {
         std::cout << COLOR_GREEN << "Success: " << message << COLOR_RESET << "\n";
     }
 
-    std::vector<std::string> split(const std::string& text, char delimiter) {
+    std::vector<std::string> split(const std::string& text, char delimiter) { // splits data to analyze
         std::vector<std::string> result;
         std::string token;
         for (auto c : text) {
