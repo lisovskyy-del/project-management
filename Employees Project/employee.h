@@ -21,7 +21,7 @@ namespace employee {
 	void update(Employee& employee);
 	void remove(int id);
 	void searchByName(const std::vector<Employee>& employees, const std::string& name);
-	void sortByAge(std::vector<Employee>& employees, bool ascending); // sorts age either by ascending or descending (user choice)
+	void sortByAge(std::vector<Employee>& employees, bool ascending);
 }
 
 #endif

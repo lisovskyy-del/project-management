@@ -6,7 +6,7 @@
 #include <fstream>
 
 namespace task {
-    TaskStatus chooseStatus() {
+    TaskStatus chooseStatus() { // user has to choose status for task.
         int choice;
         std::cout << "\nChoose status: \n"
             << "1. Not Started\n" << "2. In Progress\n"
@@ -24,7 +24,7 @@ namespace task {
         }
     }
 
-    std::string statusToString(TaskStatus status) {
+    std::string statusToString(TaskStatus status) { // reads status of the task and inputs status into string.
         switch (status) {
             case TaskStatus::NotStarted: return "Not Started";
             case TaskStatus::InProgress: return "In Progress";
@@ -34,7 +34,7 @@ namespace task {
         }
     }
 
-    TaskStatus stringToStatus(const std::string& statusStr) {
+    TaskStatus stringToStatus(const std::string& statusStr) { // reads data from a string and returns status.
         if (statusStr == "Not Started") return TaskStatus::NotStarted;
         if (statusStr == "In Progress") return TaskStatus::InProgress;
         if (statusStr == "Completed")   return TaskStatus::Completed;
@@ -42,7 +42,7 @@ namespace task {
         return TaskStatus::NotStarted;
     }
 
-    void create(Task& task) {
+    void create(Task& task) { // writes data to the file.
 
         std::ofstream file(task::FILE_NAME, std::ios::app);
         file << task.id << "|" << task.name << "|"
@@ -53,13 +53,13 @@ namespace task {
         utils::printSuccess("Task created.");
     }
     
-    void readAll(std::vector<Task>& tasks) {
+    void readAll(std::vector<Task>& tasks) { // reads data from a file.
         tasks.clear();
         std::ifstream file(task::FILE_NAME);
         std::string line;
 
         while (std::getline(file, line)) {
-            auto tokens = utils::split(line, utils::DELIMITER);
+            auto tokens = utils::split(line, utils::DELIMITER); // if target has 6 tokens (id,name, etc...), display data. otherwise, do not display.
             if (tokens.size() == 6) {
                 Task task = { std::stoi(tokens[0]), tokens[1], tokens[2], stringToStatus(tokens[3]), std::stoi(tokens[4]), std::stoi(tokens[5])};
                 tasks.push_back(task);
@@ -72,15 +72,15 @@ namespace task {
         readAll(tasks);
 
         bool isPresent = false;
-        for (auto& t : tasks) {
-            if (t.id == task.id) {
+        for (auto& t : tasks) { // go through all tasks
+            if (t.id == task.id) { // If user id equals task id = continue.
                 isPresent = true;
                 t = task;
                 break;
             }
         }
 
-        if (isPresent) {
+        if (isPresent) { // if present is true, writes data to file.
             std::ofstream file(task::FILE_NAME);
             for (const auto& t : tasks)
                 file << t.id << "|" << t.name << "|" << t.description << "|"
@@ -95,11 +95,11 @@ namespace task {
         std::vector<Task> tasks;
         readAll(tasks);
 
-        tasks.erase(std::remove_if(tasks.begin(), tasks.end(),
+        tasks.erase(std::remove_if(tasks.begin(), tasks.end(), // deletes all targets with the same id that user inputted.
             [id](const Task& t) { return t.id == id; }),
             tasks.end());
 
-        std::ofstream file(task::FILE_NAME);
+        std::ofstream file(task::FILE_NAME); // after that, write all info into data.
         for (const auto& t : tasks)
             file << t.id << "|" << t.name << "|" << t.description << "|"
             << statusToString(t.status) << "|" << t.employeeId << "|" << t.projectId << "\n";
@@ -108,11 +108,11 @@ namespace task {
         utils::printSuccess("Task deleted.");
     }
 
-    void searchByName(const std::vector<Task>& tasks, const std::string& name) {
+    void searchByName(const std::vector<Task>& tasks, const std::string& name) { // searches target by user input
         utils::printTableHeader({ "\nID", "Name", "Description", "Status", "Employee ID", "Project ID"});
         for (const auto& task : tasks) {
-            if (utils::toLower(task.name).find(utils::toLower(name)) != std::string::npos) {
-                std::string name = task.name.length() > 20 ? task.name.substr(0, 17) + "..." : task.name;
+            if (utils::toLower(task.name).find(utils::toLower(name)) != std::string::npos) { // lowers name and if found, continue.
+                std::string name = task.name.length() > 20 ? task.name.substr(0, 17) + "..." : task.name; // if task name is longer than 20 characters, shorten message to 17 characters and add "...". This is made because menu can get corrupted if name or desc is longer than 20 characters
                 std::string description = task.description.length() > 20 ? task.description.substr(0, 17) + "..." : task.description;
 
                 std::cout << std::left << std::setw(20) << task.id << "|"
@@ -125,10 +125,10 @@ namespace task {
         }
     }
 
-    void searchTaskByStatus(const std::vector<Task>& tasks, TaskStatus selectedStatus) {
+    void searchTaskByStatus(const std::vector<Task>& tasks, TaskStatus selectedStatus) { // searches target by user input
         utils::printTableHeader({ "\nID", "Name", "Description", "Status", "Employee ID", "Project ID" });
         for (const auto& task : tasks) {
-            if (task.status == selectedStatus) {
+            if (task.status == selectedStatus) { // lowers name and if found, continue.
                 std::string name = task.name.length() > 20 ? task.name.substr(0, 17) + "..." : task.name;
                 std::string description = task.description.length() > 20 ? task.description.substr(0, 17) + "..." : task.description;
 

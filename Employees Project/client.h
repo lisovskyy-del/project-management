@@ -21,4 +21,4 @@ namespace client {
 	void searchByName(const std::vector<Client>& clients, const std::string& name);
 }
 
-#endif // CLIENT_H
+#endif

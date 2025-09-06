@@ -8,7 +8,7 @@
 #include <iomanip>
 #include <vector>
 
-enum class MenuOption {
+enum class MenuOption { // options are numbers. example: ADD_TASK = 12. if user inputs 12, option would be ADD_TASK.
 	EXIT = 0,
 	ADD_CLIENT, LIST_CLIENTS, UPDATE_CLIENT, DELETE_CLIENT, SEARCH_CLIENT,
 	ADD_EMPLOYEE, LIST_EMPLOYEES, UPDATE_EMPLOYEE, DELETE_EMPLOYEE, SEARCH_EMPLOYEE, SORT_EMPLOYEES_BY_AGE,
@@ -28,7 +28,7 @@ void printMenu() {
 		<< "\nEnter Choice: ";
 }
 
-void demoMode() { // demo mode that will be put in text files
+void demoMode() { // demo mode for quick test.
 	Employee e1 = { 1, "Ivan", "Petrenko", 30, "Developer" };
 	Employee e2 = { 2, "Olena", "Shevchenko", 28, "Designer" };
 	employee::create(e1);
@@ -76,7 +76,7 @@ int main() {
 			std::cin >> client.projectId;
 			std::cin.ignore();
 
-			if (utils::validateString(client.name) && utils::validatePhone(client.phone)) {
+			if (utils::validateString(client.name) && utils::validatePhone(client.phone)) { // if validation is complete, create client.
 				client::create(client);
 			}
 			else {
@@ -86,9 +86,9 @@ int main() {
 		}
 		case MenuOption::LIST_CLIENTS: {
 			client::readAll(clients);
-			utils::printTableHeader({ "\nID", "Name", "Phone Number", "Project ID" });
+			utils::printTableHeader({ "\nID", "Name", "Phone Number", "Project ID" }); // creates a fancy menu
 			for (const auto& c : clients) {
-				std::string name = c.name.length() > 20 ? c.name.substr(0, 17) + "..." : c.name;
+				std::string name = c.name.length() > 20 ? c.name.substr(0, 17) + "..." : c.name; // check line 115 of task.cpp for explanation
 				std::string phone = c.phone.length() > 20 ? c.phone.substr(0, 17) + "..." : c.phone;
 
 				std::cout << std::left << std::setw(20) << c.id << "|"
@@ -105,7 +105,7 @@ int main() {
 			std::cout << "\nEnter ID to update client: ";
 			std::cin >> clientId;
 
-			auto it = std::find_if(clients.begin(), clients.end(), [clientId](const Client& c) {
+			auto it = std::find_if(clients.begin(), clients.end(), [clientId](const Client& c) { // if client id is found, continue.
 				return c.id == clientId;
 				});
 
@@ -143,7 +143,7 @@ int main() {
 				return c.id == clientId;
 				});
 
-			if (it != clients.end()) {
+			if (it != clients.end()) { // if client is found, remove.
 				client::remove(clientId);
 			}
 			else {

@@ -5,13 +5,14 @@
 #include <vector>
 #include <ctime>
 
+// vvv text colors for menu vvv
 const std::string COLOR_RED = "\033[31m";
 const std::string COLOR_GREEN = "\033[32m";
 const std::string COLOR_YELLOW = "\033[33m";
 const std::string COLOR_RESET = "\033[0m";
 
 namespace utils {
-	const char DELIMITER = '|';
+	const char DELIMITER = '|'; // will split data with | (example: id|name|desc)
 
 	bool validateString(const std::string& text);
 	bool validateAge(int age);
